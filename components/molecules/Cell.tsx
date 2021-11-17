@@ -1,7 +1,7 @@
-import { Textarea } from "@chakra-ui/textarea";
 import { Box } from "@chakra-ui/layout";
-import stringLength from "string-length";
+import { Textarea } from "@chakra-ui/textarea";
 import { useState } from "react";
+import stringLength from "string-length";
 
 const Cell = (): JSX.Element => {
   const [length, updateLength] = useState(0);
