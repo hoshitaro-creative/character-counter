@@ -1,4 +1,5 @@
 module.exports = {
+  basePath: "/character-counter",
   webpack: (config) => {
     config.module.rules.push({
       test: /\.m?js$/,
