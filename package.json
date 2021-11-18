@@ -6,7 +6,7 @@
     "start": "next start",
     "type-check": "tsc",
     "lint": "next lint",
-    "export": "next build && next export -o docs"
+    "export": "next build && next export -o docs && cd docs && touch .nojekyll"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.1",
