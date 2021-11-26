@@ -7,12 +7,14 @@ type Props = {
 };
 
 const Table: React.VFC<Props> = ({ tableConfig }) => {
+  const rowNumber = tableConfig.rowNumber;
   return (
-    <Flex direction="column">
-      {[...Array(tableConfig.rowNumber)].map((_, i) => (
-        <Flex key={i} direction="row">
-          {tableConfig.colums.map(({ maxLength }, i) => (
-            <Cell maxLength={maxLength} key={i}></Cell>
+    <Flex direction="row">
+      {tableConfig.colums.map((cellConfig, i) => (
+        <Flex direction="column" key={i}>
+          <div>{cellConfig.columName}</div>
+          {[...Array(rowNumber)].map((_, i) => (
+            <Cell maxLength={cellConfig.maxLength} key={i}></Cell>
           ))}
         </Flex>
       ))}
