@@ -1,13 +1,16 @@
 // import Link from 'next/link'
+import { StackDivider, VStack } from "@chakra-ui/layout";
 import { configs } from "sample/config";
 import Layout from "../components/Layout";
 import Table from "../components/molecules/Table";
 
 const IndexPage = () => (
   <Layout title="Home | Next.js + TypeScript Example">
-    {configs.map((config, i) => (
-      <Table tableConfig={config} key={i}></Table>
-    ))}
+    <VStack divider={<StackDivider></StackDivider>}>
+      {configs.map((config, i) => (
+        <Table tableConfig={config} key={i}></Table>
+      ))}
+    </VStack>
   </Layout>
 );
 
