@@ -21,7 +21,9 @@ const Cell: React.VFC<Props> = ({ maxLength }) => {
       ></Textarea>
       <Flex>
         {excessLength > 0 && <Box color="red.300">超過:{excessLength}</Box>}
-        <Box>文字数:{length}</Box>
+        <Box>
+          文字数:{length}/{maxLength}
+        </Box>
       </Flex>
     </Box>
   );

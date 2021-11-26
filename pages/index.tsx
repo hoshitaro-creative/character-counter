@@ -1,10 +1,13 @@
 // import Link from 'next/link'
+import { configs } from "sample/config";
 import Layout from "../components/Layout";
-import Cell from "../components/molecules/Cell";
+import Table from "../components/molecules/Table";
 
 const IndexPage = () => (
   <Layout title="Home | Next.js + TypeScript Example">
-    <Cell maxLength={10}></Cell>
+    {configs.map((config, i) => (
+      <Table tableConfig={config} key={i}></Table>
+    ))}
   </Layout>
 );
 
