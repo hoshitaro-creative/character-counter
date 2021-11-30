@@ -2,6 +2,10 @@ import { TableConfig } from "index";
 
 const configs: TableConfig[] = [
   {
+    colums: [{ columName: "タイトル", maxLength: 30 }],
+    rowNumber: 1,
+  },
+  {
     colums: [{ columName: "活動内容および育まれる力", maxLength: 250 }],
     rowNumber: 1,
   },
