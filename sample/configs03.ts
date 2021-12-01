@@ -1,6 +1,6 @@
 import { TableConfig } from "index";
 
-const configs: TableConfig[] = [
+const configs03: TableConfig[] = [
   {
     colums: [
       { columName: "段階", maxLength: 2 },
@@ -23,4 +23,4 @@ const configs: TableConfig[] = [
   },
 ];
 
-export { configs };
+export { configs03 };
