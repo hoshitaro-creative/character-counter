@@ -1,6 +1,9 @@
+import { StackDivider, VStack } from "@chakra-ui/layout";
+import Layout from "components/Layout";
 import { TableConfig } from "index";
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
+import Table from "../components/molecules/Table";
 
 const Page = (): JSX.Element => {
   const [configs, setConfigs] = useState<TableConfig[]>([]);
@@ -36,7 +39,19 @@ const Page = (): JSX.Element => {
       setConfigs([]);
     }
   }, [configNumber]);
-  return <div>{configs.length ? JSON.stringify(configs) : "no data"}</div>;
+  return (
+    <Layout>
+      {configs.length ? (
+        <VStack divider={<StackDivider></StackDivider>}>
+          {configs.map((config, i) => (
+            <Table tableConfig={config} key={i}></Table>
+          ))}
+        </VStack>
+      ) : (
+        "no data"
+      )}
+    </Layout>
+  );
 };
 
 export default Page;
