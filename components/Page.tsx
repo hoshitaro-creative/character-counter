@@ -1,14 +1,13 @@
 import { StackDivider, VStack } from "@chakra-ui/layout";
 import Layout from "components/Layout";
+import pages from "../sample/index";
 import Table from "./molecules/Table";
-import pages from "../sample/index"
 
 type Props = {
   pid: number;
-}
+};
 
-const Page: React.VFC<Props> = ({pid}) => {
-
+const Page: React.VFC<Props> = ({ pid }) => {
   const calculateConfigNumber = (pid: number): number => {
     if (pid === 1) {
       return 1;
@@ -24,7 +23,7 @@ const Page: React.VFC<Props> = ({pid}) => {
 
   return (
     <Layout>
-      {pid ? (
+      {1 <= pid ? (
         <VStack divider={<StackDivider></StackDivider>}>
           {configs.map((config, i) => (
             <Table tableConfig={config} key={i}></Table>
