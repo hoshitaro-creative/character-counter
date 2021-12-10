@@ -1,32 +1,12 @@
-// import Link from 'next/link'
-import { Button } from "@chakra-ui/button";
-import { Flex } from "@chakra-ui/layout";
-import Page from "components/Page";
-import { useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "components/Layout";
+import Link from "next/link";
 
-const IndexPage = () => {
-  const [pageNumber, setPageNumber] = useState(1);
+const IndexPage = (): JSX.Element => {
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
-      <Flex direction="row">
-        <Button
-          onClick={() => {
-            setPageNumber(pageNumber - 1);
-          }}
-        >
-          -
-        </Button>
-        {pageNumber}
-        <Button
-          onClick={() => {
-            setPageNumber(pageNumber + 1);
-          }}
-        >
-          +
-        </Button>
-      </Flex>
-      <Page pid={pageNumber}></Page>
+    <Layout title="top page">
+      <Link href="/login">
+        <a>認証画面へ</a>
+      </Link>
     </Layout>
   );
 };
