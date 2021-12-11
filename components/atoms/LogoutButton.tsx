@@ -5,8 +5,8 @@ const LogoutButton = () => {
   const { logout } = useAuth0();
 
   return (
-    <Button backgroundColor="red">
-      <button onClick={() => logout()}>ログアウト</button>
+    <Button backgroundColor="red.200" onClick={() => logout()}>
+      ログアウト
     </Button>
   );
 };
