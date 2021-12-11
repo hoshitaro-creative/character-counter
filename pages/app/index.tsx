@@ -6,7 +6,7 @@ import { useState } from "react";
 import Layout from "components/Layout";
 import LogoutButton from "components/atoms/LogoutButton";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import { HStack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 const AppPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -15,8 +15,7 @@ const AppPage = () => {
       <Flex direction="row-reverse">
         <LogoutButton></LogoutButton>
       </Flex>
-      <Flex direction="row">
-        <LogoutButton></LogoutButton>
+      <Flex direction="row" justifyContent="center">
         <Button
           onClick={() => {
             setPageNumber(pageNumber - 1);
@@ -24,7 +23,7 @@ const AppPage = () => {
         >
           -
         </Button>
-        <HStack>{pageNumber}</HStack>
+        <Box>{pageNumber}</Box>
         <Button
           onClick={() => {
             setPageNumber(pageNumber + 1);
