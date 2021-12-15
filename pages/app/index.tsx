@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const AppPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const [apiResponse, setApiResponse] = useState({});
+  const [apiResponse, setApiResponse] = useState("");
   const { getAccessTokenSilently } = useAuth0();
 
   const callSecureApi = async () => {
@@ -26,7 +26,7 @@ const AppPage = () => {
     response
       .json()
       .then((json) => {
-        setApiResponse(json);
+        setApiResponse(JSON.stringify(json));
       })
       .catch((error) => {
         setApiResponse(error);
@@ -35,7 +35,9 @@ const AppPage = () => {
 
   return (
     <Layout title="character counter app">
-      <Box onClick={callSecureApi} backgroundColor="red.100">{apiResponse}</Box>
+      <Box onClick={callSecureApi} backgroundColor="red.100">
+        {apiResponse}
+      </Box>
       <Flex direction="row-reverse">
         <LogoutButton></LogoutButton>
       </Flex>
