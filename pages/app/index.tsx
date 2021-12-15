@@ -21,6 +21,7 @@ const AppPage = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        mode: "cors",
       }
     );
     response
@@ -35,7 +36,7 @@ const AppPage = () => {
 
   return (
     <Layout title="character counter app">
-      <Box onClick={callSecureApi} backgroundColor="red.100">
+      <Box onClick={callSecureApi} backgroundColor="red.100" height={100}>
         {apiResponse}
       </Box>
       <Flex direction="row-reverse">
