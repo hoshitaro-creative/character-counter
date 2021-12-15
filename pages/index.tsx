@@ -1,6 +1,6 @@
+import { Button } from "@chakra-ui/react";
 import Layout from "components/Layout";
 import Link from "next/link";
-import { Button } from "@chakra-ui/react";
 
 const IndexPage = (): JSX.Element => {
   return (
