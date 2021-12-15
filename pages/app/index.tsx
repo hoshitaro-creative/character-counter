@@ -29,7 +29,7 @@ const AppPage = () => {
         setApiResponse(JSON.stringify(json));
       })
       .catch((error) => {
-        setApiResponse(error);
+        setApiResponse(JSON.stringify(error));
       });
   };
 
