@@ -16,7 +16,7 @@ const AppPage = () => {
   const callSecureApi = async () => {
     const token = await getAccessTokenSilently();
     const response = await fetch(
-      "https://mbnr69t3i6.execute-api.ap-northeast-1.amazonaws.com/hello",
+      "http://character-counter-server.japaneast.azurecontainer.io:3000/api/fetch",
       {
         headers: {
           Authorization: `Bearer ${token}`,
