@@ -12,8 +12,7 @@ const AppPage = () => {
 
   return (
     <Layout title="character counter app">
-      <Box backgroundColor="red.100" height={100}>
-      </Box>
+      <Box backgroundColor="red.100" height={100}></Box>
       <Flex direction="row-reverse">
         <LogoutButton></LogoutButton>
       </Flex>

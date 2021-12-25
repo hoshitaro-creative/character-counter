@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import Layout from "components/Layout";
 import Link from "next/link";
 
@@ -10,6 +10,9 @@ const IndexPage = (): JSX.Element => {
           <a>ログインページへ</a>
         </Link>
       </Button>
+      <Flex direction="row" justifyContent="center">
+        <Box>{"(c) 2021 viewpointics-tan"}</Box>
+      </Flex>
     </Layout>
   );
 };

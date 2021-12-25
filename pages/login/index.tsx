@@ -1,7 +1,10 @@
-import LoginButton from "components/atoms/LoginButton";
+import Layout from "components/Layout";
+import SigninButton from "components/atoms/SigninButton";
 
-const LoginPage = (): JSX.Element => {
-  return <LoginButton></LoginButton>;
-};
+const LoginPage = () => (
+  <Layout title="login or signup">
+    <SigninButton></SigninButton>
+  </Layout>
+);
 
 export default LoginPage;
