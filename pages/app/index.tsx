@@ -5,7 +5,7 @@ import { Box } from "@chakra-ui/react";
 import LogoutButton from "components/atoms/LogoutButton";
 import Layout from "components/Layout";
 import Page from "components/Page";
-import app from "firebase";
+import app from "firebaseInit";
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 

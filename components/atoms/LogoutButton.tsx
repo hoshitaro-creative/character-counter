@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import app from "firebase";
+import app from "../../firebaseInit";
 import { getAuth, signOut } from "firebase/auth";
 
 const LogoutButton = () => (
