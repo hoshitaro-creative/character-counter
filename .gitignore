@@ -2,6 +2,7 @@
 
 firebaseConfig.ts
 secret.json
+.firebase
 
 # dependencies
 /node_modules
