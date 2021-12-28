@@ -1,5 +1,5 @@
 module.exports = {
-  basePath: "/",
+  basePath: "",
   webpack: (config) => {
     config.module.rules.push({
       test: /\.m?js$/,
