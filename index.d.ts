@@ -1,5 +1,5 @@
 type TableConfig = {
-  colums: { columName: string; maxLength: number }[];
+  columns: { columnName: string; maxLength: number }[];
   rowNumber: number;
 };
 
