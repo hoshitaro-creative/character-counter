@@ -28,7 +28,7 @@ const AppPage = () => {
       setUser(user);
     });
     setUrl(window.location.href);
-  });
+  }, []);
 
   return (
     <Layout title="character counter app">
@@ -58,7 +58,7 @@ const AppPage = () => {
           <Page pid={pageNumber}></Page>
         </>
       ) : isSignInWithEmailLink(getAuth(), url) ? (
-        <Flex>
+        <Flex justifyContent={"center"}>
           <Input
             placeholder="email"
             onChange={(event) => {
@@ -73,7 +73,7 @@ const AppPage = () => {
                 }
               );
             }}
-          ></Button>
+          >submit</Button>
         </Flex>
       ) : (
         <SigninButton></SigninButton>

@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { TableConfig } from "index";
 import Cell from "./Cell";
 
@@ -8,13 +8,19 @@ type Props = {
 
 const Table: React.VFC<Props> = ({ tableConfig }) => {
   const rowNumber = tableConfig.rowNumber;
+  const columnNames = tableConfig.columns.map(({ columnName }) => columnName);
+  const maxLengthes = tableConfig.columns.map(({ maxLength }) => maxLength);
   return (
-    <Flex direction="row">
-      {tableConfig.colums.map((cellConfig, i) => (
-        <Flex direction="column" key={i}>
-          <div>{cellConfig.columName}</div>
-          {[...Array(rowNumber)].map((_, i) => (
-            <Cell maxLength={cellConfig.maxLength} key={i}></Cell>
+    <Flex direction="column">
+      <Flex direction={"row"} wrap={"nowrap"} justify={"space-evenly"}>
+        {columnNames.map((name, i) => (
+          <Box key={i}>{name}</Box>
+        ))}
+      </Flex>
+      {[...Array(rowNumber)].map((_, i) => (
+        <Flex direction={"row"} wrap={"nowrap"} key={i} justify={"space-evenly"}>
+          {maxLengthes.map((maxLength, i) => (
+            <Cell maxLength={maxLength} key={i}></Cell>
           ))}
         </Flex>
       ))}
