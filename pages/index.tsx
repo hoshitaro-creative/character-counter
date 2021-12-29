@@ -6,7 +6,7 @@ const IndexPage = (): JSX.Element => {
   return (
     <Layout title="top page">
       <Button>
-        <Link href="/login">
+        <Link href="/app">
           <a>ログインページへ</a>
         </Link>
       </Button>

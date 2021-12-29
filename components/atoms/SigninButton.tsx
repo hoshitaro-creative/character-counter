@@ -1,12 +1,28 @@
-import { Button } from "@chakra-ui/react";
-import app from "../../firebaseInit";
-import { EmailAuthProvider, getAuth, signInWithRedirect } from "firebase/auth";
+import { getAuth } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import init from "firebaseInit";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
-const provider = new EmailAuthProvider();
-const signin = () => signInWithRedirect(getAuth(app), provider);
+const SigninButton: React.VFC = () => {
+  init();
 
-const SigninButton = (): JSX.Element => (
-  <Button onClick={signin}>ログインもしくはサインアップ</Button>
-);
+  return (
+    <StyledFirebaseAuth
+      uiConfig={{
+        signInFlow: "popup",
+        signInSuccessUrl: "https://character-counter-f4d21.web.app/app",
+        signInOptions: [
+          {
+            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            signInMethod:
+              firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+          },
+        ],
+      }}
+      firebaseAuth={getAuth()}
+    ></StyledFirebaseAuth>
+  );
+};
 
 export default SigninButton;

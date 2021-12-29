@@ -1,11 +1,14 @@
 import { Button } from "@chakra-ui/react";
-import app from "../../firebaseInit";
 import { getAuth, signOut } from "firebase/auth";
+import init from "firebaseInit";
 
-const LogoutButton = () => (
-  <Button backgroundColor="red.200" onClick={() => signOut(getAuth(app))}>
-    ログアウト
-  </Button>
-);
+const LogoutButton = () => {
+  init();
+  return (
+    <Button backgroundColor="red.200" onClick={() => signOut(getAuth())}>
+      ログアウト
+    </Button>
+  );
+};
 
 export default LogoutButton;
