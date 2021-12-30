@@ -11,7 +11,7 @@ const SigninButton: React.VFC = () => {
     <StyledFirebaseAuth
       uiConfig={{
         signInFlow: "popup",
-        signInSuccessUrl: "https://character-counter-f4d21.web.app/app",
+        signInSuccessUrl: "https://character-counter-f4d21.web.app/login",
         signInOptions: [
           {
             provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,

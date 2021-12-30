@@ -4,23 +4,30 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-const allowedEmails = [
-  "viewpointicstan@gmail.com",
-  "hoshitaro@uchu2.com",
-  "ochasan.kc@gmail.com",
-];
+const allowedEmails = require("./allowedEmails");
 
-exports.authorizeUserByEmail = functions.auth.user().onCreate(async (user) => {
+exports.allowUserByEmail = functions.auth.user().onCreate((user) => {
   const uid = user.uid;
   const email = user.email;
 
   if (allowedEmails.includes(email)) {
-    await admin.auth().setCustomUserClaims(uid, { authorized: true });
-    console.log(`setCustomUserClaims: ${email}`);
-    return true;
+    admin
+      .auth()
+      .setCustomUserClaims(uid, { allowed: true })
+      .then(() => {
+        console.log(`setCustomUserClaims: ${email}`);
+      });
   } else {
-    await admin.auth().deleteUser(uid);
-    console.log(`Delete user: ${email}`);
-    return false;
+    admin
+      .auth()
+      .revokeRefreshTokens(uid)
+      .then(() => {
+        admin
+          .auth()
+          .deleteUser(uid)
+          .then(() => {
+            console.log(`Delete user: ${email}`);
+          });
+      });
   }
 });

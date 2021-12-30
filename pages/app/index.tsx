@@ -1,34 +1,26 @@
-// import Link from 'next/link'
 import { Button } from "@chakra-ui/button";
 import { Flex } from "@chakra-ui/layout";
-import { Box, Input } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import LogoutButton from "components/atoms/LogoutButton";
-import SigninButton from "components/atoms/SigninButton";
 import Layout from "components/Layout";
 import Page from "components/Page";
-import {
-  getAuth,
-  isSignInWithEmailLink,
-  onAuthStateChanged,
-  signInWithEmailLink,
-  User,
-} from "firebase/auth";
+import { getAuth, User, onAuthStateChanged } from "firebase/auth";
 import init from "firebaseInit";
 import { useEffect, useState } from "react";
 
 const AppPage = () => {
-  init();
   const [pageNumber, setPageNumber] = useState(1);
   const [user, setUser] = useState<User | null>(null);
-  const [email, setEmail] = useState("");
-  const [url, setUrl] = useState("");
-
+  init();
   useEffect(() => {
-    onAuthStateChanged(getAuth(), (user) => {
-      setUser(user);
+    onAuthStateChanged(getAuth(), () => {
+      getAuth()
+        .currentUser?.reload()
+        .then(() => {
+          setUser(getAuth().currentUser);
+        });
     });
-    setUrl(window.location.href);
-  }, []);
+  });
 
   return (
     <Layout title="character counter app">
@@ -57,26 +49,10 @@ const AppPage = () => {
           </Flex>
           <Page pid={pageNumber}></Page>
         </>
-      ) : isSignInWithEmailLink(getAuth(), url) ? (
-        <Flex justifyContent={"center"}>
-          <Input
-            placeholder="email"
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          ></Input>
-          <Button
-            onClick={() => {
-              signInWithEmailLink(getAuth(), email, url).catch(
-                (error) => {
-                  console.log(error);
-                }
-              );
-            }}
-          >submit</Button>
-        </Flex>
       ) : (
-        <SigninButton></SigninButton>
+        <Box>
+          ログインしていません、もしくは許可されたユーザーではありません
+        </Box>
       )}
     </Layout>
   );
