@@ -7,6 +7,8 @@ type Props = {
   pid: number;
 };
 
+const pageData: string[][][] = [];
+
 const Page: React.VFC<Props> = ({ pid }) => {
   const calculateConfigNumber = (pid: number): number => {
     if (pid === 1) {
@@ -20,13 +22,16 @@ const Page: React.VFC<Props> = ({ pid }) => {
     }
   };
   const configs = pages[calculateConfigNumber(pid)];
+  configs.map(() => {
+    pageData.push([])
+  })
 
   return (
     <Layout>
       {1 <= pid ? (
         <VStack divider={<StackDivider></StackDivider>}>
           {configs.map((config, i) => (
-            <Table tableConfig={config} key={i}></Table>
+            <Table tableConfig={config} key={i} tableData={pageData[i]}></Table>
           ))}
         </VStack>
       ) : (

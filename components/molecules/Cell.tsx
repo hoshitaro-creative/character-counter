@@ -6,9 +6,11 @@ import stringWidth from "string-width";
 
 type Props = {
   maxLength: number;
+  tableData: string[][];
+  index: { row: number; column: number };
 };
 
-const Cell: React.VFC<Props> = ({ maxLength }) => {
+const Cell: React.VFC<Props> = ({ maxLength, tableData, index }) => {
   const [length, updateLength] = useState(0);
   const excessLength = length - maxLength;
   return (
@@ -17,6 +19,8 @@ const Cell: React.VFC<Props> = ({ maxLength }) => {
         backgroundColor={length <= maxLength ? "green.100" : "red.300"}
         onInput={(e) => {
           updateLength(stringWidth(e.currentTarget.value) / 2);
+          tableData[index.row].splice(index.column, 1, e.currentTarget.value);
+          console.log(tableData);
         }}
       ></Textarea>
       <Flex>

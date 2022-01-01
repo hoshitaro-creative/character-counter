@@ -26,7 +26,6 @@ const AppPage = () => {
     <Layout title="character counter app">
       {user ? (
         <>
-          <Box backgroundColor="red.100" height={100}></Box>
           <Flex direction="row-reverse">
             <LogoutButton></LogoutButton>
           </Flex>
