@@ -8,9 +8,13 @@ import { getAuth, User, onAuthStateChanged } from "firebase/auth";
 import init from "firebaseInit";
 import { useEffect, useState } from "react";
 
+type PageData = string[][][];
+type PagesData = PageData[];
+
 const AppPage = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [user, setUser] = useState<User | null>(null);
+  const [pagesData, setPagesData] = useState<PagesData>([]);
   init();
   useEffect(() => {
     onAuthStateChanged(getAuth(), () => {
@@ -21,6 +25,14 @@ const AppPage = () => {
         });
     });
   });
+
+  const addEmptyPage = (number: number) => {
+    if (pagesData.length < number) {
+      setPagesData([...pagesData, []]);
+      console.log(pagesData);
+    }
+    return pagesData;
+  };
 
   return (
     <Layout title="character counter app">
@@ -46,7 +58,10 @@ const AppPage = () => {
               +
             </Button>
           </Flex>
-          <Page pid={pageNumber}></Page>
+          <Page
+            pid={pageNumber}
+            pageData={addEmptyPage(pageNumber)[pageNumber - 1]}
+          ></Page>
         </>
       ) : (
         <Box>

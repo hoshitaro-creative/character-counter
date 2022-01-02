@@ -5,11 +5,10 @@ import Table from "./molecules/Table";
 
 type Props = {
   pid: number;
+  pageData: string[][][];
 };
 
-const pageData: string[][][] = [];
-
-const Page: React.VFC<Props> = ({ pid }) => {
+const Page: React.VFC<Props> = ({ pid, pageData }) => {
   const calculateConfigNumber = (pid: number): number => {
     if (pid === 1) {
       return 1;
@@ -22,17 +21,21 @@ const Page: React.VFC<Props> = ({ pid }) => {
     }
   };
   const configs = pages[calculateConfigNumber(pid)];
-  configs.map(() => {
-    pageData.push([])
-  })
 
   return (
     <Layout>
       {1 <= pid ? (
         <VStack divider={<StackDivider></StackDivider>}>
-          {configs.map((config, i) => (
-            <Table tableConfig={config} key={i} tableData={pageData[i]}></Table>
-          ))}
+          {configs.map((config, i) => {
+            pageData.push([])
+            return (
+              <Table
+                tableConfig={config}
+                key={i}
+                tableData={pageData[i]}
+              ></Table>
+            );
+          })}
         </VStack>
       ) : (
         "no data"

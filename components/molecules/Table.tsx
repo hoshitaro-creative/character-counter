@@ -11,9 +11,6 @@ const Table: React.VFC<Props> = ({ tableConfig, tableData }) => {
   const rowNumber = tableConfig.rowNumber;
   const columnNames = tableConfig.columns.map(({ columnName }) => columnName);
   const maxLengthes = tableConfig.columns.map(({ maxLength }) => maxLength);
-  [...Array(rowNumber)].map(() => {
-    tableData.push([...Array(columnNames.length)]);
-  });
 
   return (
     <Flex direction="column">
@@ -22,23 +19,28 @@ const Table: React.VFC<Props> = ({ tableConfig, tableData }) => {
           <Box key={i}>{name}</Box>
         ))}
       </Flex>
-      {[...Array(rowNumber)].map((_, i) => (
-        <Flex
-          direction={"row"}
-          wrap={"nowrap"}
-          key={i}
-          justify={"space-between"}
-        >
-          {maxLengthes.map((maxLength, j) => (
-            <Cell
-              maxLength={maxLength}
-              key={j}
-              tableData={tableData}
-              index={{ row: i, column: j }}
-            ></Cell>
-          ))}
-        </Flex>
-      ))}
+      {[...Array(rowNumber)].map((_, i) => {
+        tableData.push([]);
+        return (
+          <Flex
+            direction={"row"}
+            wrap={"nowrap"}
+            key={i}
+            justify={"space-between"}
+          >
+            {maxLengthes.map((maxLength, j) => {
+              return (
+                <Cell
+                  maxLength={maxLength}
+                  key={j}
+                  tableData={tableData}
+                  index={{ row: i, column: j }}
+                ></Cell>
+              );
+            })}
+          </Flex>
+        );
+      })}
     </Flex>
   );
 };
