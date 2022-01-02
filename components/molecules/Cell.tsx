@@ -20,7 +20,6 @@ const Cell: React.VFC<Props> = ({ maxLength, tableData, index }) => {
         onInput={(e) => {
           updateLength(stringWidth(e.currentTarget.value) / 2);
           tableData[index.row].splice(index.column, 1, e.currentTarget.value);
-          console.log(tableData);
         }}
       ></Textarea>
       <Flex>
