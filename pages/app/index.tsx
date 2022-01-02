@@ -7,6 +7,7 @@ import Page from "components/Page";
 import { getAuth, User, onAuthStateChanged } from "firebase/auth";
 import init from "firebaseInit";
 import { useEffect, useState } from "react";
+import { saveAs } from "file-saver";
 
 type PageData = string[][][];
 type PagesData = PageData[];
@@ -26,10 +27,17 @@ const AppPage = () => {
     });
   });
 
+  const arrayToCsvString = (array: string[][]) =>
+    array
+      .map((row) => row.reduce((acc, text) => acc + text + ",", ""))
+      .reduce((acc, row) => acc + row + "\n", "");
+  const saveCsv = () => {
+    saveAs(new Blob([arrayToCsvString(pagesData.flat(2))]), `page${pageNumber}.csv`);
+  };
+
   const addEmptyPage = (number: number) => {
     if (pagesData.length < number) {
       setPagesData([...pagesData, []]);
-      console.log(pagesData);
     }
     return pagesData;
   };
@@ -38,7 +46,8 @@ const AppPage = () => {
     <Layout title="character counter app">
       {user ? (
         <>
-          <Flex direction="row-reverse">
+          <Flex direction="row" justify={"space-between"}>
+            <Button onClick={saveCsv}>csvとしてダウンロードする</Button>
             <LogoutButton></LogoutButton>
           </Flex>
           <Flex direction="row" justifyContent="center">
