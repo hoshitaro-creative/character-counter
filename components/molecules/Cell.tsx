@@ -16,6 +16,7 @@ const Cell: React.VFC<Props> = ({ maxLength, tableData, index }) => {
   return (
     <Box>
       <Textarea
+        value={tableData[index.row][index.column] || ""}
         backgroundColor={length <= maxLength ? "green.100" : "red.300"}
         onInput={(e) => {
           updateLength(stringWidth(e.currentTarget.value) / 2);

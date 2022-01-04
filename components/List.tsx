@@ -43,13 +43,12 @@ const List = ({
 
   useEffect(() => {
     listAll(ref(getStorage())).then((list) => {
-      setItemList(list.items);
+      setItemList(list.items.reverse());
     });
   });
   return (
     <Flex direction={"column"} justify={"space-between"}>
       <Box>{`${selectedItem?.name}`}</Box>
-
       <Button
         onClick={() => {
           const isStorageRefarence = (
@@ -59,7 +58,7 @@ const List = ({
           if (isStorageRefarence(selectedItem)) {
             getBlob(selectedItem).then((blob) => {
               blob.text().then((string) => {
-                console.log(JSON.parse(string));
+                setPagesData(JSON.parse(string));
                 setDocId(
                   `${projectName}_${koma}_${title}_${
                     getAuth().currentUser?.email?.split("@")[0]
@@ -95,7 +94,7 @@ const List = ({
           setIsShowedList(false);
         }}
       >
-        新規作成する
+        新しいタイトルで新規作成する
       </Button>
     </Flex>
   );

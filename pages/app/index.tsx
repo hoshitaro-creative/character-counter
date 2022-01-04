@@ -37,7 +37,7 @@ const AppPage = () => {
       .reduce((acc, row) => acc + row + "\n", "");
   const saveCsv = () => {
     saveAs(
-      new Blob([arrayToCsvString(pagesData.flat(2))]),
+      new Blob([arrayToCsvString(pagesData[pageNumber - 1].flat(1))]),
       `page${pageNumber}.csv`
     );
   };
@@ -59,106 +59,108 @@ const AppPage = () => {
 
   return (
     <Layout title="character counter app">
-      {isShowedList ? (
-        <List
-          projectName={projectName}
-          koma={koma}
-          title={title}
-          setProjectName={setProjectName}
-          setKoma={setKoma}
-          setTitle={setTitle}
-          setDocId={setDocId}
-          setIsShowedList={setIsShowedList}
-          setPagesData={setPagesData}
-        ></List>
-      ) : docId.split("_").length < 6 ? (
-        <Flex direction={"column"}>
-          <Flex direction={"row"}>
-            <Input
-              placeholder="プロジェクト名（DT or V）"
-              onChange={(e) => {
-                setProjectName(e.target.value);
-              }}
-            ></Input>
-            <Input
-              placeholder="コマ数"
-              onChange={(e) => {
-                setKoma(e.target.value);
-              }}
-            ></Input>
-            <Input
-              placeholder="指導案タイトル"
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            ></Input>
+      {user ? (
+        isShowedList ? (
+          <List
+            projectName={projectName}
+            koma={koma}
+            title={title}
+            setProjectName={setProjectName}
+            setKoma={setKoma}
+            setTitle={setTitle}
+            setDocId={setDocId}
+            setIsShowedList={setIsShowedList}
+            setPagesData={setPagesData}
+          ></List>
+        ) : docId.split("_").length < 6 ? (
+          <Flex direction={"column"}>
+            <Flex direction={"row"}>
+              <Input
+                placeholder="プロジェクト名（DT or V）"
+                onChange={(e) => {
+                  setProjectName(e.target.value);
+                }}
+              ></Input>
+              <Input
+                placeholder="コマ数"
+                onChange={(e) => {
+                  setKoma(e.target.value);
+                }}
+              ></Input>
+              <Input
+                placeholder="指導案タイトル"
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              ></Input>
+            </Flex>
+            <Flex justify={"space-between"}>
+              <Box>{`${projectName}_${koma}_${title}_${
+                getAuth().currentUser?.email?.split("@")[0]
+              }_指導案`}</Box>
+              <Button
+                onClick={() => {
+                  setDocId(
+                    `${projectName}_${koma}_${title}_${
+                      getAuth().currentUser?.email?.split("@")[0]
+                    }_指導案_${format(new Date(), "yyyy-MM-dd-HH-mm-ss", {
+                      locale: ja,
+                    })}.json`
+                  );
+                }}
+              >
+                ドキュメントIDを決定する
+              </Button>
+            </Flex>
           </Flex>
-          <Flex justify={"space-between"}>
-            <Box>{`${projectName}_${koma}_${title}_${
-              getAuth().currentUser?.email?.split("@")[0]
-            }_指導案`}</Box>
-            <Button
-              onClick={() => {
-                setDocId(
-                  `${projectName}_${koma}_${title}_${
-                    getAuth().currentUser?.email?.split("@")[0]
-                  }_指導案_${format(new Date(), "yyyy-MM-dd-HH-mm-ss", {
-                    locale: ja,
-                  })}.json`
-                );
-              }}
-            >
-              ドキュメントIDを決定する
-            </Button>
-          </Flex>
-        </Flex>
-      ) : user ? (
-        <>
-          <Flex direction="row" justify={"space-between"}>
-            <Button onClick={saveCsv}>
-              このページをcsvとしてダウンロードする
-            </Button>
-            <Button
-              onClick={() => {
-                uploadBytes(
-                  storage,
-                  new Blob([JSON.stringify(pagesData)])
-                ).then(() => {
-                  console.log("upload success!");
-                  setIsShowedList(true);
-                });
-              }}
-            >
-              保存して作業を終了する
-            </Button>
-          </Flex>
-          <Flex direction="row" justifyContent="center">
-            <Button
-              onClick={() => {
-                if (pageNumber > 1) {
-                  setPageNumber(pageNumber - 1);
-                }
-              }}
-            >
-              -
-            </Button>
-            <Box>{pageNumber}</Box>
-            <Button
-              onClick={() => {
-                setPageNumber(pageNumber + 1);
-              }}
-            >
-              +
-            </Button>
-          </Flex>
-          <Page
-            pid={pageNumber}
-            pageData={addEmptyPage(pageNumber)[pageNumber - 1]}
-          ></Page>
-          <Flex direction={"row"}>
-            <LogoutButton></LogoutButton>
-          </Flex>
-        </>
+        ) : (
+          <>
+            <Flex direction="row" justify={"space-between"}>
+              <Button onClick={saveCsv}>
+                このページをcsvとしてダウンロードする
+              </Button>
+              <Button
+                onClick={() => {
+                  uploadBytes(
+                    storage,
+                    new Blob([JSON.stringify(pagesData)])
+                  ).then(() => {
+                    console.log("upload success!");
+                    setIsShowedList(true);
+                  });
+                }}
+              >
+                保存して作業を終了する
+              </Button>
+            </Flex>
+            <Flex direction="row" justifyContent="center">
+              <Button
+                onClick={() => {
+                  if (pageNumber > 1) {
+                    setPageNumber(pageNumber - 1);
+                  }
+                }}
+              >
+                -
+              </Button>
+              <Box>{pageNumber}</Box>
+              <Button
+                onClick={() => {
+                  setPageNumber(pageNumber + 1);
+                }}
+              >
+                +
+              </Button>
+            </Flex>
+            <Page
+              pid={pageNumber}
+              pageData={addEmptyPage(pageNumber)[pageNumber - 1]}
+            ></Page>
+            <Flex direction={"row"}>
+              <LogoutButton></LogoutButton>
+            </Flex>
+          </>
+        )
       ) : (
         <Box>
           ログインしていません、もしくは許可されたユーザーではありません
