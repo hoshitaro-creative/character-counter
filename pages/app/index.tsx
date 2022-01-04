@@ -53,7 +53,6 @@ const AppPage = () => {
             <Button onClick={saveCsv}>
               このページをcsvとしてダウンロードする
             </Button>
-            <LogoutButton></LogoutButton>
           </Flex>
           <Flex direction="row" justifyContent="center">
             <Button
@@ -78,6 +77,9 @@ const AppPage = () => {
             pid={pageNumber}
             pageData={addEmptyPage(pageNumber)[pageNumber - 1]}
           ></Page>
+          <Flex direction={"row"}>
+            <LogoutButton></LogoutButton>
+          </Flex>
         </>
       ) : (
         <Box>
