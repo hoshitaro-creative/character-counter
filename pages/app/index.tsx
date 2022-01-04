@@ -4,13 +4,14 @@ import { Box, Input } from "@chakra-ui/react";
 import LogoutButton from "components/atoms/LogoutButton";
 import Layout from "components/Layout";
 import Page from "components/Page";
-import { saveAs } from "file-saver";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
-import init from "firebaseInit";
-import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import ja from "date-fns/locale/ja";
+import { saveAs } from "file-saver";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import init from "firebaseInit";
+import { useEffect, useState } from "react";
+import nestedArrayToObject from "utils/arrayToObject";
 
 type PageData = string[][][];
 type PagesData = PageData[];
@@ -49,13 +50,6 @@ const AppPage = () => {
   };
 
   const db = getFirestore();
-  const renameDoc = () => {
-    const docRef = doc(db, "pages", "E2R3Ewu5dqc3j01W9mrg");
-    getDoc(docRef).then((snapshot) => {
-      console.log(snapshot.data());
-    });
-    updateDoc(docRef, {});
-  };
 
   const [docId, setDocId] = useState("");
   const [projectName, setProjectName] = useState("default-project");
@@ -111,13 +105,15 @@ const AppPage = () => {
             <Button onClick={saveCsv}>
               このページをcsvとしてダウンロードする
             </Button>
-            <Button onClick={renameDoc}>rename</Button>
           </Flex>
           <Flex direction="row" justifyContent="center">
             <Button
               onClick={() => {
                 if (pageNumber > 1) {
                   setPageNumber(pageNumber - 1);
+                  setDoc(doc(db, "pages", `${docId}`), {
+                    data: nestedArrayToObject(pagesData),
+                  });
                 }
               }}
             >
@@ -127,6 +123,9 @@ const AppPage = () => {
             <Button
               onClick={() => {
                 setPageNumber(pageNumber + 1);
+                setDoc(doc(db, "pages", `${docId}`), {
+                  data: nestedArrayToObject(pagesData),
+                });
               }}
             >
               +
