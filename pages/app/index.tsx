@@ -32,7 +32,10 @@ const AppPage = () => {
       .map((row) => row.reduce((acc, text) => acc + text + ",", ""))
       .reduce((acc, row) => acc + row + "\n", "");
   const saveCsv = () => {
-    saveAs(new Blob([arrayToCsvString(pagesData.flat(2))]), `page${pageNumber}.csv`);
+    saveAs(
+      new Blob([arrayToCsvString(pagesData.flat(2))]),
+      `page${pageNumber}.csv`
+    );
   };
 
   const addEmptyPage = (number: number) => {
@@ -47,13 +50,17 @@ const AppPage = () => {
       {user ? (
         <>
           <Flex direction="row" justify={"space-between"}>
-            <Button onClick={saveCsv}>csvとしてダウンロードする</Button>
+            <Button onClick={saveCsv}>
+              このページをcsvとしてダウンロードする
+            </Button>
             <LogoutButton></LogoutButton>
           </Flex>
           <Flex direction="row" justifyContent="center">
             <Button
               onClick={() => {
-                setPageNumber(pageNumber - 1);
+                if (pageNumber > 1) {
+                  setPageNumber(pageNumber - 1);
+                }
               }}
             >
               -
