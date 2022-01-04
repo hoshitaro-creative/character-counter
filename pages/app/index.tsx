@@ -3,15 +3,15 @@ import { Flex } from "@chakra-ui/layout";
 import { Box, Input } from "@chakra-ui/react";
 import LogoutButton from "components/atoms/LogoutButton";
 import Layout from "components/Layout";
+import List from "components/List";
 import Page from "components/Page";
 import { format } from "date-fns";
 import ja from "date-fns/locale/ja";
 import { saveAs } from "file-saver";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import init from "firebaseInit";
 import { useEffect, useState } from "react";
-import nestedArrayToObject from "utils/arrayToObject";
 
 type PageData = string[][][];
 type PagesData = PageData[];
@@ -49,16 +49,29 @@ const AppPage = () => {
     return pagesData;
   };
 
-  const db = getFirestore();
-
   const [docId, setDocId] = useState("");
   const [projectName, setProjectName] = useState("default-project");
   const [koma, setKoma] = useState("1");
   const [title, setTitle] = useState("default-title");
+  const [isShowedList, setIsShowedList] = useState(true);
+
+  const storage = ref(getStorage(), docId);
 
   return (
     <Layout title="character counter app">
-      {docId === "" ? (
+      {isShowedList ? (
+        <List
+          projectName={projectName}
+          koma={koma}
+          title={title}
+          setProjectName={setProjectName}
+          setKoma={setKoma}
+          setTitle={setTitle}
+          setDocId={setDocId}
+          setIsShowedList={setIsShowedList}
+          setPagesData={setPagesData}
+        ></List>
+      ) : docId.split("_").length < 6 ? (
         <Flex direction={"column"}>
           <Flex direction={"row"}>
             <Input
@@ -80,7 +93,7 @@ const AppPage = () => {
               }}
             ></Input>
           </Flex>
-          <Flex>
+          <Flex justify={"space-between"}>
             <Box>{`${projectName}_${koma}_${title}_${
               getAuth().currentUser?.email?.split("@")[0]
             }_指導案`}</Box>
@@ -91,7 +104,7 @@ const AppPage = () => {
                     getAuth().currentUser?.email?.split("@")[0]
                   }_指導案_${format(new Date(), "yyyy-MM-dd-HH-mm-ss", {
                     locale: ja,
-                  })}`
+                  })}.json`
                 );
               }}
             >
@@ -105,15 +118,25 @@ const AppPage = () => {
             <Button onClick={saveCsv}>
               このページをcsvとしてダウンロードする
             </Button>
+            <Button
+              onClick={() => {
+                uploadBytes(
+                  storage,
+                  new Blob([JSON.stringify(pagesData)])
+                ).then(() => {
+                  console.log("upload success!");
+                  setIsShowedList(true);
+                });
+              }}
+            >
+              保存して作業を終了する
+            </Button>
           </Flex>
           <Flex direction="row" justifyContent="center">
             <Button
               onClick={() => {
                 if (pageNumber > 1) {
                   setPageNumber(pageNumber - 1);
-                  setDoc(doc(db, "pages", `${docId}`), {
-                    data: nestedArrayToObject(pagesData),
-                  });
                 }
               }}
             >
@@ -123,9 +146,6 @@ const AppPage = () => {
             <Button
               onClick={() => {
                 setPageNumber(pageNumber + 1);
-                setDoc(doc(db, "pages", `${docId}`), {
-                  data: nestedArrayToObject(pagesData),
-                });
               }}
             >
               +
