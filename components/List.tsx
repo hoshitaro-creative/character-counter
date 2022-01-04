@@ -48,9 +48,8 @@ const List = ({
   });
   return (
     <Flex direction={"column"} justify={"space-between"}>
-      <Box>{`${projectName}_${koma}_${title}_${
-        getAuth().currentUser?.email?.split("@")[0]
-      }_指導案`}</Box>
+      <Box>{`${selectedItem?.name}`}</Box>
+
       <Button
         onClick={() => {
           const isStorageRefarence = (
@@ -90,6 +89,14 @@ const List = ({
           {name}
         </Box>
       ))}
+      <Button
+        onClick={() => {
+          setDocId("");
+          setIsShowedList(false);
+        }}
+      >
+        新規作成する
+      </Button>
     </Flex>
   );
 };
